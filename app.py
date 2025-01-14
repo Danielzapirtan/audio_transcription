@@ -13,10 +13,10 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Path to the whisper.cpp executable
-WHISPER_CPP_EXEC = "../whisper.cpp/build/bin/whisper-cli"
+WHISPER_CPP_EXEC = "../../whisper.cpp/build/bin/whisper-cli"
 
 # Model configuration
-MODEL_BASE_PATH = "../whisper.cpp/models"
+MODEL_BASE_PATH = "../../whisper.cpp/models"
 MODEL_SIZES = {
     "tiny": "ggml-tiny.bin",
     "tiny-q5_1": "ggml-tiny-q5_1.bin",
@@ -24,6 +24,7 @@ MODEL_SIZES = {
     "base": "ggml-base.bin",
     "base-q5_1": "ggml-base-q5_1.bin",
     "base-q8_0": "ggml-base-q8_0.bin",
+    "base.en-q8_0": "ggml-base.en-q8_0.bin",
     "base.en": "ggml-base.en.bin",
     "small": "ggml-small.bin",
     "small-q5_1": "ggml-small-q5_1.bin",
