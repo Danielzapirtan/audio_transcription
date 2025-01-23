@@ -1,9 +1,10 @@
 import os
 import subprocess
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template, send_file
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import logging
+import tempfile
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -102,6 +103,39 @@ def convert_to_wav(input_path, output_path):
     except Exception as e:
         logger.error(f"Error during audio conversion: {str(e)}")
         raise
+
+@app.route('/')
+def index():
+    """
+    Render the main index page
+    """
+    return render_template('index.html')
+
+@app.route("/download-transcription", methods=["POST"])
+def download_transcription():
+    """
+    Download transcription as a text file
+    """
+    transcription = request.form.get('transcription')
+    
+    if not transcription:
+        return jsonify({"error": "No transcription provided"}), 400
+    
+    # Create a temporary file for the transcription
+    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.txt', prefix='transcription_') as temp_file:
+        temp_file.write(transcription)
+        temp_file_path = temp_file.name
+    
+    try:
+        return send_file(
+            temp_file_path, 
+            mimetype='text/plain', 
+            as_attachment=True, 
+            download_name='transcription.txt'
+        )
+    finally:
+        # Clean up the temporary file
+        os.unlink(temp_file_path)
 
 @app.route("/transcribe", methods=["POST"])
 def transcribe():
@@ -226,4 +260,4 @@ if __name__ == "__main__":
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     os.makedirs(CONVERTED_FOLDER, exist_ok=True)
     
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5050, debug=True)
