@@ -1,5 +1,5 @@
 import gradio as gr
-import whisper
+import openai-whisper
 import time
 import os
 
