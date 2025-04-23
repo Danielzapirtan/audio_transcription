@@ -38,7 +38,7 @@ jobs:
         python app.py input_audio.mp3 --model ${{ github.event.inputs.model_size }}
         
     - name: Upload transcript
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: transcript
         path: transcript.txt
