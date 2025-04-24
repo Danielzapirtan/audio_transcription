@@ -3,9 +3,6 @@ name: Test Whisper Transcription
 on:
   workflow_dispatch:
     inputs:
-      audio_url:
-        description: 'URL of the audio file to transcribe'
-        required: true
       model_size:
         description: 'Model size (tiny, base, small, medium, large)'
         default: 'medium'
@@ -25,12 +22,21 @@ jobs:
         
     - name: Install dependencies
       run: |
-        sudo apt install ffmpeg wget
-        sudo pip install openai-whisper
+        sudo apt update
+        sudo apt install -y ffmpeg
+        pip install openai-whisper
+        
+    - name: Upload audio file
+      uses: actions/upload-artifact@v4
+      with:
+        name: input-audio
+        path: input_audio.mp3
         
     - name: Download audio file
-      run: |
-        wget ${{ github.event.inputs.audio_url }} -O input_audio.mp3
+      uses: actions/download-artifact@v4
+      with:
+        name: input-audio
+        path: .
         
     - name: Run transcription
       run: |
@@ -41,4 +47,3 @@ jobs:
       with:
         name: transcript
         path: transcript.txt
-
