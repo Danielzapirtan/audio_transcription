@@ -1,3 +1,5 @@
+name: Transcribe Audio
+
 on:
   workflow_dispatch:
     inputs:
@@ -10,25 +12,38 @@ jobs:
   transcribe:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout repo
+      uses: actions/checkout@v3
 
-    - uses: actions/setup-python@v4
+    - name: Set up Python
+      uses: actions/setup-python@v4
       with:
         python-version: '3.9'
 
-    - run: |
+    - name: Install dependencies
+      run: |
         sudo apt update
         sudo apt install -y ffmpeg
         pip install -U openai-whisper
 
-    - name: Use latest uploaded MP3 from audio/
+    - name: Download uploaded audio artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: audio
+        path: .
+
+    - name: Find MP3 file
       run: |
-        file=$(ls -t audio/*.mp3 | head -n 1)
+        file=$(find . -name "*.mp3" | head -n 1)
+        echo "Found audio: $file"
         cp "$file" input_audio.mp3
-        echo "Using $file"
+
+    - name: Transcribe
+      run: |
         python app.py input_audio.mp3 --model ${{ github.event.inputs.model_size }}
 
-    - uses: actions/upload-artifact@v4
+    - name: Upload transcript
+      uses: actions/upload-artifact@v4
       with:
         name: transcript
         path: transcript.txt
