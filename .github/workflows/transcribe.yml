@@ -1,14 +1,8 @@
-name: Whisper Audio Transcription
-
 on:
   workflow_dispatch:
     inputs:
-      audio_file:
-        description: 'Upload MP3 audio file for transcription'
-        required: true
-        type: file
       model_size:
-        description: 'Whisper model size (tiny, base, small, medium, large)'
+        description: 'Whisper model size'
         default: 'medium'
         required: false
 
@@ -16,38 +10,25 @@ jobs:
   transcribe:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-      
-    - name: Set up Python
-      uses: actions/setup-python@v4
+    - uses: actions/checkout@v3
+
+    - uses: actions/setup-python@v4
       with:
         python-version: '3.9'
-        
-    - name: Install dependencies
-      run: |
+
+    - run: |
         sudo apt update
         sudo apt install -y ffmpeg
         pip install -U openai-whisper
-        
-    - name: Save uploaded audio file
+
+    - name: Use latest uploaded MP3 from audio/
       run: |
-        # The uploaded file will be available in the runner's temp directory
-        # We need to move it to our working directory with the expected name
-        mv ${{ github.event.inputs.audio_file }} input_audio.mp3
-        file input_audio.mp3  # Verify file type
-        ls -lh input_audio.mp3  # Verify file size
-        
-    - name: Run transcription
-      run: |
+        file=$(ls -t audio/*.mp3 | head -n 1)
+        cp "$file" input_audio.mp3
+        echo "Using $file"
         python app.py input_audio.mp3 --model ${{ github.event.inputs.model_size }}
-        
-    - name: Upload transcript
-      uses: actions/upload-artifact@v4
+
+    - uses: actions/upload-artifact@v4
       with:
         name: transcript
         path: transcript.txt
-        
-    - name: Show transcript contents
-      run: |
-        cat transcript.txt
