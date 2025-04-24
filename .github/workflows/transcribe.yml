@@ -24,7 +24,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt install -y ffmpeg
-        pip install openai-whisper
+        pip install -U openai-whisper
         
     - name: Upload audio file
       uses: actions/upload-artifact@v4
