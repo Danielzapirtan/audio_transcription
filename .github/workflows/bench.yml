@@ -1,4 +1,4 @@
-name: Run Whisper Transcription
+name: Test Whisper Transcription
 
 on:
   workflow_dispatch:
@@ -25,9 +25,9 @@ jobs:
         
     - name: Install dependencies
       run: |
+        sudo apt install ffmpeg python3 wget
         sudo python3 -m pip install --upgrade pip
         sudo pip3 install openai-whisper
-        sudo apt install ffmpeg wget
         
     - name: Download audio file
       run: |
