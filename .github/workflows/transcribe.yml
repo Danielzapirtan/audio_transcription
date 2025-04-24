@@ -25,7 +25,7 @@ jobs:
         
     - name: Install dependencies
       run: |
-        sudo apt install ffmpeg python3 wget
+        sudo apt install ffmpeg wget
         sudo python3 -m pip install --upgrade pip
         sudo pip3 install openai-whisper
         
