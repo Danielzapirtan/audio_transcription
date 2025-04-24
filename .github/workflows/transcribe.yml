@@ -26,11 +26,11 @@ jobs:
         sudo apt install -y ffmpeg
         pip install -U openai-whisper
 
-    - name: Download uploaded audio artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: audio
-        path: .
+#    - name: Download uploaded audio artifact
+#      uses: actions/download-artifact@v4
+#      with:
+#        name: audio
+@        path: .
 
     - name: Find MP3 file
       run: |
