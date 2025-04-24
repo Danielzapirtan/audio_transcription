@@ -26,18 +26,6 @@ jobs:
         sudo apt install -y ffmpeg
         pip install -U openai-whisper
 
-#    - name: Download uploaded audio artifact
-#      uses: actions/download-artifact@v4
-#      with:
-#        name: audio
-@        path: .
-
-    - name: Find MP3 file
-      run: |
-        file=$(find . -name "*.mp3" | head -n 1)
-        echo "Found audio: $file"
-        cp "$file" input_audio.mp3
-
     - name: Transcribe
       run: |
         python app.py input_audio.mp3 --model ${{ github.event.inputs.model_size }}
