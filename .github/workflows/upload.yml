@@ -1,0 +1,21 @@
+name: Upload Audio
+
+on:
+  workflow_dispatch:
+    inputs:
+      filename:
+        description: 'MP3 file name (no path, must be in repo)'
+        required: true
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Upload MP3 as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: audio
+        path: ${{ github.workspace }}/${{ github.event.inputs.filename }}
