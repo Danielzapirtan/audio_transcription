@@ -1,1 +1,1 @@
-Audio transcription app using Whisper.cpp
+Audio transcription app using openai-whisper
