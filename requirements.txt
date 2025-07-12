@@ -1,0 +1,13 @@
+# Audio Transcription Tool Requirements
+# Core transcription library
+openai-whisper>=20231117
+
+# Additional dependencies that might be needed
+torch>=1.10.0
+torchaudio>=0.10.0
+numpy>=1.21.0
+ffmpeg-python>=0.2.0
+
+# Optional: for better audio format support
+librosa>=0.9.0
+soundfile>=0.10.0
