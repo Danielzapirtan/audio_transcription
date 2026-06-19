@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-FRAMEWORKS="flask gradio streamlit"
+FRAMEWORKS="gha flask gradio streamlit"
 TOOLS="faster mlx"
 AF="$1"
 
