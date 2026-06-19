@@ -16,5 +16,7 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
+          FRAMEWORK=gha
+          TOOL=faster
           source bin/utest.sh gha faster samples/default.m4a
 

@@ -1,12 +1,8 @@
 #! /usr/bin/env bash
 
 FRAMEWORKS="flask gradio streamlit"
-FRAMEWORK="$1"
-
 TOOLS="faster mlx"
-TOOL="$2"
-
-AF="$3"
+AF="$1"
 
 main() {
 	rootdir=$(pwd)
@@ -22,7 +18,7 @@ main() {
 		pkill -kill streamlit
 		streamlit run app.py
 	else
-		python3 app.py $3
+		python3 app.py $1
 	fi
 }
 
