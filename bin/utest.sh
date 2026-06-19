@@ -1,16 +1,32 @@
 #! /usr/bin/env bash
 
-${PRODUCTION:=true}
-VER=3
+FRAMEWORKS="cli colab flask gha gradio streamlit"
+FRAMEWORK="$1"
 
-sudo apt update
-sudo apt install ffmpeg python${VER}-pip -y
-python$VER -m venv venv
-source venv/bin/activate
-export VIRTUAL_ENV
-python$VER -m pip install --upgrade pip
-pip install -r faster/gha/requirements.txt
-pip install faster-whisper
-python3 faster/gha/app.py $HOME/default.m4a
-cat transcription.txt
+TOOLS="faster mlx"
+TOOL="$2"
+
+main() {
+	rootdir=$(pwd)
+	if test -z $VIRTUAL_ENV; then
+	cd
+	test -d venv || python3 -m venv venv
+	source venv/bin/activate
+	export VIRTUAL_ENV
+	fi
+	cd $rootdir/$TOOL/$FRAMEWORK
+	apt install ffmpeg
+	pip install -r requirements.txt
+	if [ $FRAMEWORK = streamlit ]; then
+		pkill -kill streamlit
+		streamlit run app.py
+	else
+		python3 app.py
+	fi
+}
+
+echo "$FRAMEWORKS" | grep -q $FRAMEWORK || exit 2
+echo "$TOOLS" | grep -q $TOOL || exit 3
+
+main
 
