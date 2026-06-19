@@ -18,5 +18,5 @@ jobs:
         run: |
           FRAMEWORK=gha
           TOOL=faster
-          source bin/utest.sh samples/default.m4a
+          bash bin/utest.sh samples/default.m4a
 

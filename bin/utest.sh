@@ -18,7 +18,7 @@ main() {
 		pkill -kill streamlit
 		streamlit run app.py
 	elif [ $FRAMEWORK = gha ]; then
-		python3 app.py $1
+		python3 app.py "$1"
 	else
 		python3 app.py
 	fi
