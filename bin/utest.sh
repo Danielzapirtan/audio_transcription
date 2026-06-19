@@ -6,6 +6,8 @@ FRAMEWORK="$1"
 TOOLS="faster mlx"
 TOOL="$2"
 
+AF="$3"
+
 main() {
 	rootdir=$(pwd)
 	if test -z $VIRTUAL_ENV; then
@@ -20,7 +22,7 @@ main() {
 		pkill -kill streamlit
 		streamlit run app.py
 	else
-		python3 app.py
+		python3 app.py $3
 	fi
 }
 
