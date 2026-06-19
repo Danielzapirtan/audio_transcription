@@ -1,5 +1,6 @@
-# Additional dependencies that might be needed
 faster-whisper
+
+# Additional dependencies that might be needed
 setuptools
 torch
 torchaudio

@@ -17,8 +17,10 @@ main() {
 	if [ $FRAMEWORK = streamlit ]; then
 		pkill -kill streamlit
 		streamlit run app.py
-	else
+	elif [ $FRAMEWORK = gha ]; then
 		python3 app.py $1
+	else
+		python3 app.py
 	fi
 }
 
