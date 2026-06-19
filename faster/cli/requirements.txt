@@ -1,3 +1,0 @@
-whispermlx
-soundfile
-numpy
