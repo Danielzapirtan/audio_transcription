@@ -10,15 +10,13 @@ TOOLS="faster mlx"
 TOOL="$2"
 
 main() {
-	rootdir=$(pwd)
 	brew install python@$VER
 	if test -z $VIRTUAL_ENV; then
-	cd
 	test -d venv || python$VER -m venv venv
 	source venv/bin/activate
 	export VIRTUAL_ENV
 	fi
-	cd $rootdir/$TOOL/$FRAMEWORK
+	cd $TOOL/$FRAMEWORK
 	brew install ffmpeg
 	pip install -r requirements.txt
 	if [ $FRAMEWORK = streamlit ]; then
