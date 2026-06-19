@@ -2,7 +2,7 @@
 
 FRAMEWORKS="gha flask gradio streamlit"
 TOOLS="faster mlx"
-AF="$1"
+AF="$(pwd)/$1"
 
 main() {
 	rootdir=$(pwd)
