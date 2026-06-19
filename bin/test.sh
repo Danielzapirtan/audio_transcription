@@ -3,7 +3,7 @@
 ${PRODUCTION:=true}
 VER=3.12
 
-FRAMEWORKS="cli colab flask gha gradio streamlit"
+FRAMEWORKS="flask gradio streamlit"
 FRAMEWORK="$1"
 
 TOOLS="faster mlx"

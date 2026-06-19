@@ -19,6 +19,7 @@ main() {
 	if [ $FRAMEWORK = streamlit ]; then
 		pkill -kill streamlit
 		streamlit run app.py
+	elif [ $FRAMEWORK = "cli" ]; then
 	else
 		python3 app.py
 	fi
