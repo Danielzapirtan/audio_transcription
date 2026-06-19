@@ -1,7 +1,10 @@
 #! /usr/bin/env bash
 
-FRAMEWORKS="flask gradio streamlit"
+FRAMEWORKS="cli colab flask gha gradio streamlit"
 FRAMEWORK="$1"
+
+TOOLS="faster mlx"
+TOOL="$2"
 
 main() {
 	rootdir=$(pwd)
@@ -11,7 +14,7 @@ main() {
 	source venv/bin/activate
 	export VIRTUAL_ENV
 	fi
-	cd $rootdir/$FRAMEWORK
+	cd $rootdir/$TOOL/$FRAMEWORK
 	apt install ffmpeg
 	pip install -r requirements.txt
 	if [ $FRAMEWORK = streamlit ]; then
@@ -23,6 +26,7 @@ main() {
 }
 
 echo "$FRAMEWORKS" | grep -q $FRAMEWORK || exit 2
+echo "$TOOLS" | grep -q $TOOL || exit 3
 
 main
 
