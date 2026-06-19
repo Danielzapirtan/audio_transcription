@@ -1,0 +1,21 @@
+name: Transcript
+
+on:
+  workflow_dispatch:
+
+jobs:
+  bench:
+    name: Bench Job
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Execution
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          cp default.m4a ~
+          source test.sh
+
