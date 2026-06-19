@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-FRAMEWORKS="cli colab flask gha gradio streamlit"
+FRAMEWORKS="flask gradio streamlit"
 FRAMEWORK="$1"
 
 TOOLS="faster mlx"
@@ -19,7 +19,6 @@ main() {
 	if [ $FRAMEWORK = streamlit ]; then
 		pkill -kill streamlit
 		streamlit run app.py
-	elif [ $FRAMEWORK = "cli" ]; then
 	else
 		python3 app.py
 	fi
