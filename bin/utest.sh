@@ -12,7 +12,7 @@ main() {
 	export VIRTUAL_ENV
 	fi
 	cd $TOOL/$FRAMEWORK
-	apt install ffmpeg
+	sudo apt install ffmpeg
 	pip install -r requirements.txt
 	if [ $FRAMEWORK = streamlit ]; then
 		pkill -kill streamlit
