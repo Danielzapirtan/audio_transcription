@@ -1,0 +1,10 @@
+# Additional dependencies that might be needed
+setuptools
+torch
+torchaudio
+numpy
+ffmpeg
+
+# Optional: for better audio format support
+librosa
+soundfile

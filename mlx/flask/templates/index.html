@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhisperMLX - Transcriere Română</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 30px;
+        }
+
+        .upload-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .file-upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            background: white;
+        }
+
+        .file-upload-area:hover {
+            border-color: #764ba2;
+            background: #f0f0ff;
+        }
+
+        .file-upload-area.dragover {
+            border-color: #764ba2;
+            background: #e8e8ff;
+            transform: scale(1.02);
+        }
+
+        .file-upload-area i {
+            font-size: 48px;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .file-upload-area p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .file-info {
+            display: none;
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .file-info.show {
+            display: block;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .config-info {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .config-info h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .config-info ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .config-info li {
+            padding: 5px 0;
+            color: #666;
+        }
+
+        .config-info li::before {
+            content: "•";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .output-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1.1em;
+            color: #666;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: inherit;
+            resize: vertical;
+            background: white;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .status {
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .status.ready {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status.processing {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .status.error {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .status.success {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .spinner {
+            display: none;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 10px auto;
+        }
+
+        .spinner.show {
+            display: block;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .instructions {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .instructions h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .instructions ol {
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎙️ Transcriere Audio în Română cu WhisperMLX</h1>
+            <p>Transcriere locală folosind modelul <strong>large-v3</strong> pentru limba română.<br>
+            Procesare complet locală pe MacBook-ul tău.</p>
+        </div>
+
+        <div class="content">
+            <div class="main-grid">
+                <!-- Left Column - Upload -->
+                <div class="upload-section">
+                    <div class="file-upload-area" id="dropZone">
+                        <div>📁</div>
+                        <p><strong>Alege fișierul audio</strong> sau trage-l aici</p>
+                        <p style="font-size: 0.9em; color: #999;">WAV, MP3, M4A, FLAC, OGG, WMA, AAC</p>
+                        <input type="file" id="fileInput" accept=".wav,.mp3,.m4a,.flac,.ogg,.wma,.aac" style="display: none;">
+                    </div>
+
+                    <div class="file-info" id="fileInfo">
+                        <strong>Fișier selectat:</strong>
+                        <span id="fileName"></span>
+                        (<span id="fileSize"></span>)
+                    </div>
+
+                    <button class="btn btn-primary" id="transcribeBtn" disabled>
+                        Transcrie Audio
+                    </button>
+
+                    <div class="spinner" id="spinner"></div>
+
+                    <div class="config-info">
+                        <h3>📋 Configurare</h3>
+                        <ul>
+                            <li><strong>Model</strong>: large-v3</li>
+                            <li><strong>Limbă</strong>: Română (ro)</li>
+                            <li><strong>Procesare</strong>: Locală, fără internet</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Right Column - Output -->
+                <div class="output-section">
+                    <div class="tabs">
+                        <button class="tab active" onclick="switchTab('transcription')">Transcriere Completă</button>
+                        <button class="tab" onclick="switchTab('details')">Detalii</button>
+                    </div>
+
+                    <div class="tab-content active" id="transcriptionTab">
+                        <textarea id="transcriptionOutput" rows="12" placeholder="Transcrierea va apărea aici..." readonly></textarea>
+                    </div>
+
+                    <div class="tab-content" id="detailsTab">
+                        <textarea id="detailsOutput" rows="12" placeholder="Detalii despre transcriere..." readonly></textarea>
+                    </div>
+
+                    <div class="status ready" id="status">
+                        ✓ Gata de transcriere
+                    </div>
+                </div>
+            </div>
+
+            <div class="instructions">
+                <h3>💡 Instrucțiuni</h3>
+                <ol>
+                    <li><strong>Instalați whispermlx</strong>: <code>pip install whispermlx</code></li>
+                    <li><strong>Formate suportate</strong>: WAV, MP3, M4A, FLAC</li>
+                    <li><strong>Prima rulare</strong>: Modelul large-v3 va fi descărcat automat (~3GB)</li>
+                    <li><strong>Performanță</strong>: Optimizat pentru Apple Silicon (M1/M2/M3)</li>
+                    <li><strong>Confidențialitate</strong>: Toată procesarea este locală, datele nu părăsesc dispozitivul</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const transcribeBtn = document.getElementById('transcribeBtn');
+        const spinner = document.getElementById('spinner');
+        const status = document.getElementById('status');
+        const transcriptionOutput = document.getElementById('transcriptionOutput');
+        const detailsOutput = document.getElementById('detailsOutput');
+
+        // Click on drop zone to trigger file input
+        dropZone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Handle file selection
+        fileInput.addEventListener('change', (e) => {
+            handleFile(e.target.files[0]);
+        });
+
+        // Drag and drop handlers
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        });
+
+        function handleFile(file) {
+            if (file) {
+                const validTypes = ['audio/wav', 'audio/mpeg', 'audio/mp4', 'audio/flac', 
+                                  'audio/ogg', 'audio/x-ms-wma', 'audio/aac', 'audio/mp3'];
+                
+                if (validTypes.includes(file.type) || 
+                    /\.(wav|mp3|m4a|flac|ogg|wma|aac)$/i.test(file.name)) {
+                    fileName.textContent = file.name;
+                    fileSize.textContent = formatFileSize(file.size);
+                    fileInfo.classList.add('show');
+                    transcribeBtn.disabled = false;
+                } else {
+                    alert('Format de fișier neacceptat. Vă rugăm să încărcați un fișier audio.');
+                }
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Handle transcription
+        transcribeBtn.addEventListener('click', async () => {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            // Update UI for processing
+            transcribeBtn.disabled = true;
+            spinner.classList.add('show');
+            status.className = 'status processing';
+            status.textContent = '⏳ Se procesează transcrierea...';
+            transcriptionOutput.value = '';
+            detailsOutput.value = '';
+
+            // Create form data
+            const formData = new FormData();
+            formData.append('audio_file', file);
+
+            try {
+                const response = await fetch('/transcribe', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    transcriptionOutput.value = data.transcription;
+                    detailsOutput.value = data.details;
+                    status.className = 'status success';
+                    status.textContent = '✓ Transcriere completă cu succes!';
+                } else {
+                    status.className = 'status error';
+                    status.textContent = '✗ ' + (data.error || 'Eroare la transcriere');
+                }
+            } catch (error) {
+                status.className = 'status error';
+                status.textContent = '✗ Eroare de conexiune: ' + error.message;
+            } finally {
+                transcribeBtn.disabled = false;
+                spinner.classList.remove('show');
+            }
+        });
+
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName + 'Tab').classList.add('active');
+        }
+    </script>
+</body>
+</html>
