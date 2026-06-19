@@ -17,6 +17,7 @@ jobs:
         run: |
           TOOL=mlx
           FRAMEWORK=gha
-          source bin/test.sh default.m4a
+          cd $TOOL/$FRAMEWORK
+          source test.sh default.m4a
         timeout-minutes: 300
 
