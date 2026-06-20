@@ -5,10 +5,7 @@ ${PRODUCTION:=true}
 VER=3.12
 
 FRAMEWORKS="flask gradio streamlit"
-FRAMEWORK="$1"
-
 TOOLS="faster mlx"
-TOOL="$2"
 
 main() {
 	rootdir=$(pwd)
@@ -26,7 +23,7 @@ main() {
 		pkill -kill streamlit
 		streamlit run app.py
 	elif [ $FRAMEWORK = gha ]; then
-		python3 app.py "$AF"
+		python$VER app.py "$AF"
 	else
 		python$VER app.py
 	fi
