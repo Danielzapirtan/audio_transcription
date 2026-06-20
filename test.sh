@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#! /bin/bash
 
 PLATFORM=$(uname)
 echo "platform: $PLATFORM"
