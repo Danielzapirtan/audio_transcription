@@ -1,6 +1,7 @@
 #! /usr/bin/env bash
 
 PLATFORM=$(uname)
+echo "platform: $PLATFORM"
 script=bin/test.sh
 [ $PLATFORM = linux ] && script=bin/utest.sh
 echo -n "Introduceti framework-ul (cli/flask/gradio/streamlit): "
