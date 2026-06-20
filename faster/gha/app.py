@@ -64,7 +64,7 @@ def main():
     try:
         file_path = sys.argv[1]
         language = "ro"
-        model_size = "large-v3"
+        model_size = "medium"
         transcription = transcribe_audio(file_path, model_size, language)
         save_transcription(transcription, 'transcription.txt')
         print(transcription)
