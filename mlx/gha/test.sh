@@ -14,7 +14,7 @@ source venv/bin/activate
 export VIRTUAL_ENV
 python$VER -m pip install --upgrade pip
 brew install ffmpeg-full
-pip install -r gha/requirements.txt
+pip install -r requirements.txt
 if test -z $HF_TOKEN; then
 	echo "exportati HF_TOKEN"
 else
