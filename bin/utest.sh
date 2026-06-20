@@ -20,6 +20,8 @@ main() {
 		streamlit run app.py
 	elif [ $FRAMEWORK = gha ]; then
 		python3 app.py "$AF"
+	elif [ $FRAMEWORK = cli ]; then
+		python3 app.py "$AF"
 	else
 		python3 app.py
 	fi
