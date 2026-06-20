@@ -7,7 +7,6 @@ if echo $PLATFORM | grep -iq Linux; then
 else
 	MYSCRIPT=test.sh
 fi
-echo $MYSCRIPT
 echo -n "Introduceti framework-ul (cli/flask/gradio/streamlit): "
 read FRAMEWORK
 echo -n "Introduceti tool-ul (faster/mlx): "
