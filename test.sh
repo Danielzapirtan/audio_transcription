@@ -17,7 +17,8 @@ if [ $TOOL = mlx ]; then
 	if [ $FRAMEWORK = cli ]; then
 		echo -n "Introduceti calea catre fisierul audio: "
 		read AF
-		bash mlx/$FRAMEWORK/test.sh $AF
+		cd mlx/cli
+		bash test.sh $AF
 	else
 		bash bin/$MYSCRIPT
 	fi
