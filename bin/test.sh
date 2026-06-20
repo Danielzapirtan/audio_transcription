@@ -1,5 +1,6 @@
 #! /usr/bin/env bash
 
+ARG="$1"
 ${PRODUCTION:=true}
 VER=3.12
 
@@ -10,6 +11,8 @@ TOOLS="faster mlx"
 TOOL="$2"
 
 main() {
+	rootdir=$(pwd)
+	AF="$rootdir/$ARG"
 	brew install python@$VER
 	if test -z $VIRTUAL_ENV; then
 	test -d venv || python$VER -m venv venv
@@ -22,6 +25,8 @@ main() {
 	if [ $FRAMEWORK = streamlit ]; then
 		pkill -kill streamlit
 		streamlit run app.py
+	elif [ $FRAMEWORK = gha ]; then
+		python3 app.py "$AF"
 	else
 		python$VER app.py
 	fi
