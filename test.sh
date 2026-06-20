@@ -2,8 +2,8 @@
 
 PLATFORM=$(uname)
 echo "platform: $PLATFORM"
-script=bin/test.sh
-[ $PLATFORM = linux ] && script=bin/utest.sh
+script=test.sh
+[ $PLATFORM = linux ] && script=utest.sh
 echo -n "Introduceti framework-ul (cli/flask/gradio/streamlit): "
 read FRAMEWORK
 echo -n "Introduceti tool-ul (faster/mlx): "
@@ -16,15 +16,15 @@ if [ $TOOL = mlx ]; then
 		read AF
 		bash mlx/$FRAMEWORK/test.sh $AF
 	else
-		bash $script
+		bash bin/$script
 	fi
 else
 	if [ $FRAMEWORK = cli ]; then
 		echo -n "Introduceti calea catre fisierul audio: "
 		read AF
-		bash $script $AF
+		bash bin/$script $AF
 	else
-		bash $script
+		bash bin/$script
 	fi
 fi
 
