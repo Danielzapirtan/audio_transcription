@@ -1,0 +1,26 @@
+#! /usr/bin/env bash
+
+echo -n "Introduceti framework-ul (cli/flask/gradio/streamlit): "
+read FRAMEWORK
+echo -n "Introduceti tool-ul (faster/mlx): "
+read TOOL
+export FRAMEWORK TOOL
+
+if [ $TOOL == mlx ]; then
+	if [ $FRAMEWORK = cli ]; then
+		echo -n "Introduceti calea catre fisierul audio: "
+		read AF
+		bash mlx/$FRAMEWORK/test.sh $AF
+	else
+		bash bin/test.sh
+	fi
+else
+	if [ $FRAMEWORK = cli ]; then
+		echo -n "Introduceti calea catre fisierul audio: "
+		read AF
+		bash bin/test.sh $AF
+	else
+		bash bin/test.sh
+	fi
+fi
+
