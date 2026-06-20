@@ -4,7 +4,7 @@ ARG="$1"
 ${PRODUCTION:=true}
 VER=3.12
 
-FRAMEWORKS="flask gradio streamlit"
+FRAMEWORKS="gha flask gradio streamlit"
 TOOLS="faster mlx"
 
 main() {
