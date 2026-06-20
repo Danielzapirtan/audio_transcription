@@ -3,9 +3,9 @@
 PLATFORM=$(uname)
 echo "platform: $PLATFORM"
 if [ $PLATFORM = linux ]; then
-	script=utest.sh
+	MYSCRIPT=utest.sh
 else
-	script=test.sh
+	MYSCRIPT=test.sh
 fi
 echo -n "Introduceti framework-ul (cli/flask/gradio/streamlit): "
 read FRAMEWORK
@@ -19,15 +19,15 @@ if [ $TOOL = mlx ]; then
 		read AF
 		bash mlx/$FRAMEWORK/test.sh $AF
 	else
-		bash bin/$script
+		bash bin/$MYSCRIPT
 	fi
 else
 	if [ $FRAMEWORK = cli ]; then
 		echo -n "Introduceti calea catre fisierul audio: "
 		read AF
-		bash bin/$script $AF
+		bash bin/$MYSCRIPT $AF
 	else
-		bash bin/$script
+		bash bin/$MYSCRIPT
 	fi
 fi
 
