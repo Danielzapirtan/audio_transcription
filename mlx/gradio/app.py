@@ -5,15 +5,8 @@ import os
 from pathlib import Path
 
 def transcribe_romanian(audio_file):
-    """
-    Transcribe Romanian audio using whispermlx CLI tool with large-v3 model
-    
-    Args:
-        audio_file: Path to audio file from Gradio
-    """
     if audio_file is None:
         return "Please upload an audio file.", ""
-    
     try:
         # Build the whispermlx command
         cmd = [
@@ -23,29 +16,19 @@ def transcribe_romanian(audio_file):
             "--hf_token", os.getenv("HF_TOKEN"),
             audio_file
         ]
-        
-        # Run whispermlx as subprocess and capture stdout
         result = subprocess.run(
             cmd,
             capture_output=True,
             text=True,
             timeout=1500  # 5 minute timeout for large files
         )
-        
-        # Check for errors
         if result.returncode != 0:
             error_msg = result.stderr or "Unknown error occurred"
             return f"Error: {error_msg}", ""
-        
-        # Get transcription from stdout
         full_text = result.stdout.strip()
-        
         if not full_text:
             return "No transcription produced. Check if the audio file contains speech.", ""
-        
-        # Format with metadata for the details tab
         details = f"Model: large-v3\nLanguage: Romanian (ro)\nStatus: Success\n\n{full_text}"
-        
         return full_text, details
     
     except subprocess.TimeoutExpired:
@@ -55,7 +38,6 @@ def transcribe_romanian(audio_file):
     except Exception as e:
         return f"Error during transcription: {str(e)}", ""
 
-# Create the Gradio interface
 with gr.Blocks(title="WhisperMLX - Transcriere Română", theme=gr.themes.Soft()) as demo:
     gr.Markdown(
         """
@@ -109,18 +91,12 @@ with gr.Blocks(title="WhisperMLX - Transcriere Română", theme=gr.themes.Soft()
                         max_lines=20,
                         placeholder="Detalii despre transcriere..."
                     )
-    
-    # Status
     status_box = gr.Markdown("✓ Gata de transcriere")
-    
-    # Connect the button
     transcribe_btn.click(
         fn=transcribe_romanian,
         inputs=[audio_input],
         outputs=[output_text, segments_output]
     )
-    
-    # Usage instructions
     gr.Markdown(
         """
         ### 💡 Instrucțiuni
