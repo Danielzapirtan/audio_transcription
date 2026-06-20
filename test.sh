@@ -2,7 +2,7 @@
 
 PLATFORM=$(uname)
 echo "platform: $PLATFORM"
-if echo $PLATFORM | grep linux; then
+if echo $PLATFORM | grep -q linux; then
 	MYSCRIPT=utest.sh
 else
 	MYSCRIPT=test.sh
