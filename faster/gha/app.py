@@ -66,6 +66,7 @@ def main():
         language = "ro"
         model_size = "large-v3"
         transcription = transcribe_audio(file_path, model_size, language)
+        save_transcription(transcription, 'transcription.txt')
         printf(transcription)
     except KeyboardInterrupt:
         print("\n\n⚠️  Process interrupted by user")
