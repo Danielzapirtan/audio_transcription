@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 ARG=$1
-FRAMEWORKS="gha flask gradio streamlit"
+FRAMEWORKS="cli gha flask gradio streamlit"
 TOOLS="faster mlx"
 
 main() {
