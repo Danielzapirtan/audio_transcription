@@ -1,4 +1,4 @@
 flask
-faster-whisper
+whispermlx
 torch
 werkzeug
