@@ -10,7 +10,7 @@ echo -n "Introduceti tool-ul (faster/mlx): "
 read TOOL
 export FRAMEWORK TOOL
 
-if [ $TOOL == mlx ]; then
+if [ $TOOL = mlx ]; then
 	if [ $FRAMEWORK = cli ]; then
 		echo -n "Introduceti calea catre fisierul audio: "
 		read AF
