@@ -4,8 +4,6 @@ ARG=$1
 FRAMEWORKS="cli gha flask gradio streamlit"
 TOOLS="faster mlx"
 
-${TOOL:=faster}
-
 main() {
 	rootdir=$(pwd)
 	AF="$rootdir/$ARG"
