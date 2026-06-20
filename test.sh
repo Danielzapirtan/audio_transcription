@@ -11,7 +11,7 @@ echo -n "Introduceti framework-ul (cli/flask/gradio/streamlit): "
 read FRAMEWORK
 echo -n "Introduceti tool-ul (faster/mlx): "
 read TOOL
-export FRAMEWORK TOOL
+export FRAMEWORK TOOL MYSCRIPT
 
 if [ $TOOL = mlx ]; then
 	if [ $FRAMEWORK = cli ]; then
