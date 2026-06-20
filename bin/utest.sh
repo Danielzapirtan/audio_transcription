@@ -1,11 +1,12 @@
 #! /usr/bin/env bash
 
+ARG=$1
 FRAMEWORKS="gha flask gradio streamlit"
 TOOLS="faster mlx"
 
 main() {
 	rootdir=$(pwd)
-	AF="$rootdir/$1"
+	AF="$rootdir/$ARG"
 	if test -z $VIRTUAL_ENV; then
 	test -d venv || python3 -m venv venv
 	source venv/bin/activate
