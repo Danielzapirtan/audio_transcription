@@ -2,9 +2,10 @@
 
 PLATFORM=$(uname)
 echo "platform: $PLATFORM"
-script=test.sh
 if [ $PLATFORM = linux ]; then
 	script=utest.sh
+else
+	script=test.sh
 fi
 echo -n "Introduceti framework-ul (cli/flask/gradio/streamlit): "
 read FRAMEWORK
