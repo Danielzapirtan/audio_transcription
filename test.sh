@@ -2,11 +2,12 @@
 
 PLATFORM=$(uname)
 echo "platform: $PLATFORM"
-if echo $PLATFORM | grep -q linux; then
+if echo $PLATFORM | grep -iq Linux; then
 	MYSCRIPT=utest.sh
 else
 	MYSCRIPT=test.sh
 fi
+echo $MYSCRIPT
 echo -n "Introduceti framework-ul (cli/flask/gradio/streamlit): "
 read FRAMEWORK
 echo -n "Introduceti tool-ul (faster/mlx): "
