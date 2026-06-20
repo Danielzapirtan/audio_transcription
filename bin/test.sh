@@ -24,6 +24,8 @@ main() {
 		streamlit run app.py
 	elif [ $FRAMEWORK = gha ]; then
 		python$VER app.py "$AF"
+	elif [ $FRAMEWORK = cli ]; then
+		python$VER app.py "$AF"
 	else
 		python$VER app.py
 	fi
