@@ -18,5 +18,5 @@ jobs:
         run: |
           export TOOL=faster
           export FRAMEWORK=gha
-          source bin/test.sh samples/default.m4a
+          bash bin/test.sh samples/default.m4a
 
