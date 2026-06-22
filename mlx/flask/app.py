@@ -66,7 +66,7 @@ def transcribe_romanian(audio_file_path):
         return "Error: Transcription timed out (25 minute limit)", ""
     except FileNotFoundError:
         #return "Error: whispermlx not found. Please install with: pip install whispermlx", ""
-	return "Ploaia în Spania e mai ales in avion", "Mock transcription"
+        return "Ploaia în Spania e mai ales in avion", "Mock transcription"
     except Exception as e:
         return f"Error during transcription: {str(e)}", ""
 
