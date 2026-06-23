@@ -35,6 +35,7 @@ def transcribe_romanian(audio_file_path):
             "--model", "large-v3",
             "--language", "ro",
             "--hf_token", os.getenv("HF_TOKEN", ""),
+            "--diarize",
             audio_file_path
         ]
         
